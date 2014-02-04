@@ -7,6 +7,7 @@
  */
 
 'use strict';
+var Schema = require("jugglingdb").Schema;
 
 module.exports = function(grunt) {
 
@@ -16,10 +17,16 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('juggling', 'Grunt plugin to create jugglingdb database structure and import fixtures.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      driver: "memory",
+      driver_options: {}
     });
 
+    var files = this.data.models || null;
+    var fixtures = this.data.fixtures || null;
+
+    var schema = new Schema
+    console.log(files, fixtures, options);
+/*
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       // Concat specified files.
@@ -44,7 +51,7 @@ module.exports = function(grunt) {
 
       // Print a success message.
       grunt.log.writeln('File "' + f.dest + '" created.');
-    });
+    });*/
   });
 
 };

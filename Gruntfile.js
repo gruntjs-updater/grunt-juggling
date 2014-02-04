@@ -30,21 +30,21 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     juggling: {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+      options: {
+          driver: 'memory',
+          driver_options: {}
       },
-      custom_options: {
+
+      default: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!',
+          driver_options: {
+            bla: "blupp"
+          }
         },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+        models: [
+          'tmp/default_options',
+        ],
+        fixtures: []
       },
     },
 
