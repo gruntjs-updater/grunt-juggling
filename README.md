@@ -37,50 +37,95 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.driver
 Type: `String`
-Default value: `',  '`
+Default value: `'memory'`
 
-A string value that is used to do something with whatever.
+The driver for jugglingdb to use, same format as in jugglingdb itself
 
 #### options.punctuation
-Type: `String`
-Default value: `'.'`
+Type: `Object`
+Default value: `'{}'`
 
-A string value that is used to do something else with whatever else.
+The driver options for jugglingdb to use, same format as in jugglingdb itself
+
+#### models
+Type: `Array`
+Default value: `'[]'`
+
+List every file that contains a model. Should be callable via import_model
+
+#### fixtures
+Type: `Array`
+Default value: `'null'`
+
+Either null (default) to disable import of fixtures, an empty array to clear tables or an array with files in json or yaml format. Details see below
+
+#### import_model
+Type: `Function`
+Default value: `'null'`
+
+The function to import the models. Callback is `function (module, schema)`.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to do nothing.
 
 ```js
 grunt.initConfig({
   juggling: {
     options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    import_model: function (module, schema) {
+      module(schema);
     },
   },
 });
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example, custom options are used to import fixtures. Juggling is used with MySQL adapter.
 
 ```js
 grunt.initConfig({
   juggling: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      driver: 'mysql',
+      driver_options: {
+      	host: "localhost",
+      	username: "root",
+      	password: "NotSoSecret",
+      	database: "databasename"
+      },
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+	models: [
+		'models/**/*_model.js'
+	],
+	fixtures: [
+		'fixtures/**/*_fixture.json'
+	],
+	import_model: function (module, schema) {
+		module.model(schema);
+	}
   },
 });
 ```
+
+### Fixtures file format
+Following formats are supported with `.json` extension:
+```json
+[
+    {
+        "table": "tableName",
+        "data": [
+            {"key": "value", "store": "of"},
+            {"parameters": "toInsert"}
+        ]
+    }
+]
+```
+
+For `.yaml` format, just port the `.json` format.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
