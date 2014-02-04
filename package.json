@@ -41,5 +41,8 @@
     "gruntplugin",
     "jugglingdb",
     "juggling"
-  ]
+  ],
+  "dependencies": {
+    "async": "~0.2.10"
+  }
 }
