@@ -91,11 +91,23 @@ C.readModels = function () {
     }
 };
 
+C.templateOptions = function (options) {
+    var self = this;
+
+    this.grunt.util.recurse(options, function (val) {
+        return self.grunt.template.process(val);
+    });
+
+    return options;
+};
+
 C.parseOptions = function () {
     var options = this.task.options({
         driver: "memory",
         driver_options: {}
     });
+
+    options = this.templateOptions(options);
 
     this.log("Initialize " + options.driver + " juggling schema driver...");
     if (this.hasSchemaAdapter(options.driver)) {
