@@ -94,7 +94,7 @@ C.readModels = function () {
 C.templateOptions = function (options) {
     var self = this;
 
-    this.grunt.util.recurse(options, function (val) {
+    options = this.grunt.util.recurse(options, function (val) {
         return self.grunt.template.process(val);
     });
 
