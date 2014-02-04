@@ -1,7 +1,7 @@
 {
   "name": "grunt-juggling",
   "description": "Grunt plugin to create jugglingdb database structure and import fixtures.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/CKing/grunt-juggling",
   "author": {
     "name": "Christopher König",
